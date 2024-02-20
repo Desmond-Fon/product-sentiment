@@ -14,10 +14,41 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 export function ProductModal() {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    function generateRandomSums(arraySize: number, targetSum: number): number[][] {
+        const finalArray: number[][] = [];
+
+        for (let i = 0; i < arraySize; i++) {
+            const tempArray: number[] = [];
+            let remainingSum = targetSum;
+
+            while (remainingSum > 0 && tempArray.length < 2) {
+                const randomValue = Math.floor(Math.random() * (remainingSum - 1 + 1)) + 1;
+                tempArray.push(randomValue);
+                remainingSum -= randomValue;
+            }
+
+            if (remainingSum > 0 && tempArray.length < 2) {
+                tempArray.push(remainingSum);
+            }
+
+            while (tempArray.length < 2) {
+                tempArray.push(0);
+            }
+
+            finalArray.push(tempArray);
+        }
+
+        return finalArray;
+    }
+
+    const randomSums = generateRandomSums(5, 100);
+    const randomIndex = Math.floor(Math.random() * randomSums.length);
+    const selectedSubArray = randomSums[randomIndex];
+    
     const data = {
         datasets: [
             {
-                data: [80, 20],
+                data: selectedSubArray,
                 backgroundColor: ["#239463", "#242636"],
                 borderColor: "#1E1E2C",
                 hoverOffset: 4,

@@ -8,10 +8,41 @@ Box, Text, Flex, VStack, HStack
 } from '@chakra-ui/react'
 
 export const Main = () => {
+    function generateRandomSums(arraySize: number, targetSum: number): number[][] {
+        const finalArray: number[][] = [];
+
+        for (let i = 0; i < arraySize; i++) {
+            const tempArray: number[] = [];
+            let remainingSum = targetSum;
+
+            while (remainingSum > 0 && tempArray.length < 3) {
+                const randomValue = Math.floor(Math.random() * (remainingSum - 1 + 1)) + 1;
+                tempArray.push(randomValue);
+                remainingSum -= randomValue;
+            }
+
+            if (remainingSum > 0 && tempArray.length < 3) {
+                tempArray.push(remainingSum);
+            }
+
+            while (tempArray.length < 3) {
+                tempArray.push(0);
+            }
+
+            finalArray.push(tempArray);
+        }
+
+        return finalArray;
+    }
+
+    const randomSums = generateRandomSums(5, 100); 
+    const randomIndex = Math.floor(Math.random() * randomSums.length);
+    const selectedSubArray = randomSums[randomIndex];
+
      const data = {
         datasets: [
             {
-                data: [35, 30, 25],
+                data: selectedSubArray,
                 backgroundColor: ["#239463", "#242636", "#1E1E2C"],
                 borderColor: "#1E1E2C",
                 hoverOffset: 4,
