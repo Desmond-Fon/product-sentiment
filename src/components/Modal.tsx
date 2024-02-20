@@ -44,7 +44,7 @@ export function ProductModal() {
     const randomSums = generateRandomSums(5, 100);
     const randomIndex = Math.floor(Math.random() * randomSums.length);
     const selectedSubArray = randomSums[randomIndex];
-    
+
     const data = {
         datasets: [
             {
@@ -58,10 +58,10 @@ export function ProductModal() {
     };
     return (
         <>
-            <div className='w-[100%] bg-red-400 relative' >
+            <div className='w-[80%] lg:w-[100%] relative' >
                 <Image
                     objectFit='cover'
-                    w={{ base: '100%', sm: '200px', md: '100%' }}
+                    w={{ base: '100%', sm: '100%', md: '100%' }}
                     src='https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
                     alt='Caffe Latte'
                 />
@@ -74,7 +74,7 @@ export function ProductModal() {
                 </div>
             </div>
 
-            <Modal isOpen={isOpen} size='3xl' onClose={onClose}>
+            <Modal isOpen={isOpen} size={['sm', '3xl']} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent bg='#282928' color='#f2f2f3'>
                     <ModalHeader fontWeight='700' fontSize='20px'>PRODUCT 1</ModalHeader>
@@ -90,7 +90,7 @@ export function ProductModal() {
                                 Product Sentiment Chart
                             </Text>
                             <HStack gap='30px'>
-                                <Doughnut data={data} width="70%" height="70%" />
+                                <Doughnut data={data} width="60%" height="60%" />
                                 <VStack gap='10px'>
                                     <Flex justifyContent={"center"} alignItems={"center"} mt='2'>
                                         <Box w="10px" h="10px" bgColor="#239463" rounded="50%" mr="7px"></Box>
@@ -104,8 +104,8 @@ export function ProductModal() {
                             </HStack>
 
                             <div>
-                                <p className='font-[600] pt-6 text-center px-5'>Most Common Comment :
-                                    <span className='font-[400]'> Query out products with their comments with machine learning which predicts positive and negative comment</span>  </p>
+                                <p className='font-[600] pt-6 text-center px-2 lg:px-5'>Most Common Comment :
+                                    <span className='font-[400]'> Query out products with their comments.</span>  </p>
                             </div>
 
                         </VStack>
