@@ -12,8 +12,8 @@ export const Nav = () => {
                     <p className='font-[600] lg:text-[19px] cursor-pointer'>Product Sentiment</p>
                 </div>
                 <div className='flex justify-between items-center gap-16'>
-                    <button className='rounded-full px-3 py-1 text-[14px] bg-primary border-[1px] border-offWhite'>My Library</button>
-                    {/* <div className='flex justify-between items-center gap-5'>
+                  {/*  <button className='rounded-full px-3 py-1 text-[14px] bg-primary border-[1px] border-offWhite'>My Library</button>
+                    <div className='flex justify-between items-center gap-5'>
                         <IoNotificationsOutline className='w-5 h-5 cursor-pointer' />
                         <IoSettingsOutline className='w-5 cursor-pointer h-5' />
                     </div> */}
