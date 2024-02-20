@@ -12,6 +12,8 @@ export default {
         secondary: "#239463",
         tertiary: "#24211f",
         offWhite: "#f2f2f3",
+        footerText: "#888889",
+        overlay: "rgba(0, 0, 0, 0.6)",
       },
     },
   },
