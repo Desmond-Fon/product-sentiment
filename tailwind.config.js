@@ -11,6 +11,7 @@ export default {
         primary: "#282928",
         secondary: "#239463",
         tertiary: "#24211f",
+        offWhite: "#f2f2f3",
       },
     },
   },
