@@ -9,47 +9,37 @@ import {
 } from '@chakra-ui/react'
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Legend, Tooltip } from "chart.js";
+import { Product } from '../App';
+import { useEffect, useState } from 'react';
+import config from '../config.json';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function ProductModal() {
+// Image sample
+// 'https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
+
+interface Sentiment {
+    positive: number;
+    negative: number;
+    top_words: string[]
+}
+
+export function ProductModal({ product }: { product: Product }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const [resData, setResData] = useState<Sentiment>();
 
-    function generateRandomSums(arraySize: number, targetSum: number): number[][] {
-        const finalArray: number[][] = [];
+    useEffect(() => {
+        fetch(config.server_url + '/products/' + product.id + '/sentiment')
+            .then(res => res.json() as Promise<Sentiment>)
+            .then(data => setResData(data))
+            .catch(console.error)
+    }, [setResData]);
 
-        for (let i = 0; i < arraySize; i++) {
-            const tempArray: number[] = [];
-            let remainingSum = targetSum;
-
-            while (remainingSum > 0 && tempArray.length < 2) {
-                const randomValue = Math.floor(Math.random() * (remainingSum - 1 + 1)) + 1;
-                tempArray.push(randomValue);
-                remainingSum -= randomValue;
-            }
-
-            if (remainingSum > 0 && tempArray.length < 2) {
-                tempArray.push(remainingSum);
-            }
-
-            while (tempArray.length < 2) {
-                tempArray.push(0);
-            }
-
-            finalArray.push(tempArray);
-        }
-
-        return finalArray;
-    }
-
-    const randomSums = generateRandomSums(5, 100);
-    const randomIndex = Math.floor(Math.random() * randomSums.length);
-    const selectedSubArray = randomSums[randomIndex];
 
     const data = {
         datasets: [
             {
-                data: selectedSubArray,
-                backgroundColor: ["#239463", "#242636"],
+                data: [resData?.positive, resData?.negative],
+                backgroundColor: ["#239463", "#A42636"],
                 borderColor: "#1E1E2C",
                 hoverOffset: 4,
                 borderWidth: [0, 0, 0]
@@ -62,13 +52,13 @@ export function ProductModal() {
                 <Image
                     objectFit='cover'
                     w={{ base: '100%', sm: '100%', md: '100%' }}
-                    src='https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
+                    src={product.image}
                     alt='Caffe Latte'
                 />
                 <div className='bg-overlay absolute bottom-0 w-full flex justify-between items-center px-3 py-2'>
                     <div className='text-[14px]'>
-                        <p className='font-[500]'>Yesterday files</p>
-                        <p className='text-[12px]'>04/12/2020</p>
+                        <p className='font-[500]'>{product.name}</p>
+                        <p className='text-[12px]'>{product.last_comment_date.toLocaleString('en', { dateStyle: 'short' })}</p>
                     </div>
                     <button className='bg-secondary px-3 py-1 border-none rounded-sm text-[14px]' onClick={onOpen}>View chart</button>
                 </div>
@@ -77,7 +67,7 @@ export function ProductModal() {
             <Modal isOpen={isOpen} size={['sm', '3xl']} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent bg='#282928' color='#f2f2f3'>
-                    <ModalHeader fontWeight='700' fontSize='20px'>PRODUCT 1</ModalHeader>
+                    <ModalHeader fontWeight='700' fontSize='20px'>{product.name}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <VStack borderRadius={"18.6348px"} p={"4"}>
@@ -97,7 +87,7 @@ export function ProductModal() {
                                         <Text color={"#f2f2f3"}>Positive</Text>
                                     </Flex>
                                     <Flex justifyContent={"center"} alignItems={"center"} mt='2'>
-                                        <Box w="10px" h="10px" bgColor="#242636" rounded="50%" mr="7px"></Box>
+                                        <Box w="10px" h="10px" bgColor="#A42636" rounded="50%" mr="7px"></Box>
                                         <Text color={"#f2f2f3"}>Negative</Text>
                                     </Flex>
                                 </VStack>
@@ -105,7 +95,8 @@ export function ProductModal() {
 
                             <div>
                                 <p className='font-[600] pt-6 text-center px-2 lg:px-5'>Most Common Comment :
-                                    <span className='font-[400]'> Query out products with their comments.</span>  </p>
+                                    {resData?.top_words.map((word, index) => <span className='font-[400]' key={index}>{word} </span>)}
+                                </p>
                             </div>
 
                         </VStack>
