@@ -94,7 +94,7 @@ export function ProductModal({ product }: { product: Product }) {
                             </HStack>
 
                             <div>
-                                <p className='font-[600] pt-6 text-center px-2 lg:px-5'>Most Common Comment :
+                                <p className='font-[600] pt-6 text-center px-2 lg:px-5'>Most Common Words :
                                     {resData?.top_words.map((word, index) => <span className='font-[400]' key={index}>{word} </span>)}
                                 </p>
                             </div>
