@@ -40,7 +40,7 @@ function App() {
       });
   }, [setResData]);
 
-  const handleSubmit = () => {
+  // const handleSubmit = () => {
   //   if (!link && link === null) {
   //     setErr(true);
   //   } else {
