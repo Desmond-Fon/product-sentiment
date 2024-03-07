@@ -22,40 +22,41 @@ interface DashboardData {
 export const Home = () => {
   const [resData, setResData] = useState<DashboardData>();
 
-  useEffect(() => {
-    fetch(config.server_url + "/dashboard")
-      .then((res) => res.json() as Promise<DashboardData>)
-      .then((data) => {
-        setResData(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [setResData]);
 
-  return (
-    <>
-      <div className="overflow-hidden lg:h-[100vh] font-poppins">
-        <div className="hidden lg:grid grid-cols-10">
-          <>
-            <div className={`col-span-7 min-h-screen`}>
-              {resData && (
-                <Main stats={[resData!.positive, resData!.negative]} />
-              )}
-            </div>
-            <div className={`col-span-3 max-h-screen overflow-y-auto`}>
-              {resData && <SideBar products={resData!.products} />}
-            </div>
-          </>
-        </div>
+      useEffect(() => {
+        fetch(config.server_url + "/dashboard")
+          .then((res) => res.json() as Promise<DashboardData>)
+          .then((data) => {
+            setResData(data);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      }, [setResData]);
 
-        <div className="lg:hidden">
-          <Nav />
-          {resData && <Main stats={[resData!.positive, resData!.negative]} />}
-          {resData && <SideBar products={resData!.products} />}
-          <Footer />
+    return (
+      <>
+        <div className="overflow-hidden lg:h-[100vh] font-poppins">
+          <div className="hidden lg:grid grid-cols-10">
+            <>
+              <div className={`col-span-7 min-h-screen`}>
+                {resData && (
+                  <Main stats={[resData!.positive, resData!.negative]} />
+                )}
+              </div>
+              <div className={`col-span-3 max-h-screen overflow-y-auto`}>
+                {resData && <SideBar products={resData!.products} />}
+              </div>
+            </>
+          </div>
+
+          <div className="lg:hidden">
+            <Nav />
+            {resData && <Main stats={[resData!.positive, resData!.negative]} />}
+            {resData && <SideBar products={resData!.products} />}
+            <Footer />
+          </div>
         </div>
-      </div>
-    </>
-  );
-};
+      </>
+    );
+}

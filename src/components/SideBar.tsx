@@ -1,4 +1,4 @@
-import { Product } from '../App'
+import { Product } from '../pages/home'
 import { ProductModal } from './Modal'
 
 export const SideBar = ({ products }: { products: Product[] }) => {
