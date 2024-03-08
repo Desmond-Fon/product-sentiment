@@ -21,6 +21,7 @@ export const Login = () => {
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
     if (!link || link === null) {
       setErr(true);
     } else {
@@ -62,7 +63,7 @@ export const Login = () => {
           <div className="pb-4 w-full text-black font-[700]">
             <FormControl>
               <FormLabel fontWeight={"700"} fontSize={"16px"} color="white">
-                Enter JSON FIle
+                Enter Database File
               </FormLabel>
               <Input
                 name="database"
